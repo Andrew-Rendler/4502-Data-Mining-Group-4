@@ -2,6 +2,7 @@ import os
 import pickle
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
 #credit to github user WJMatthew
 class SubjectData:
@@ -11,7 +12,7 @@ class SubjectData:
         self.subject = f'S{subject_number}'
 
         #this assumes WESAD has same depth as project root
-        with open(os.path.join('../', self.subject) + '/' + self.subject + '.pkl', 'rb') as file:
+        with open(os.path.join('../WESAD', self.subject) + '/' + self.subject + '.pkl', 'rb') as file:
             self.data = pickle.load(file, encoding='latin1')
         self.chestData = self.data['signal']['chest']
         self.wristData = self.data['signal']['wrist']
@@ -20,7 +21,7 @@ class SubjectData:
     def getData(self,key):
         if key not in ['ACC', 'ECG', 'EMG', 'EDA', 'Temp', 'Resp']:
             print('Key not found, select from ACC, ECG, EMG, EDA, Temp, Resp')
-        else: return self.chestData['signal']['wrist'][f'{key}']
+        else: return self.chestData[f'{key}']
 
 
     def graphData(self,key):
@@ -28,5 +29,5 @@ class SubjectData:
             print('Key not found, select from ACC, ECG, EMG, EDA, Temp, Resp')
         else:
 
-            plt.plot(self.chestData['signal']['wrist'][f'{key}'],'bo')
+            plt.plot(self.chestData[f'{key}'],'bo')
             plt.show()
